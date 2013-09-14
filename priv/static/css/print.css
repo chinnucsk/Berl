@@ -1,0 +1,12 @@
+/* print.css for the block-theme »John«
+ * written by Jeena Paradies <info@jeenaparadies.net> <http://jeenaparadies.net>
+ *
+ */
+
+/* -- main stuff -- */
+  body { color: black; background: white; font-family: Georgia, "Times New Roman", Times, serif; }
+  .fl { float: left; margin: 0 1em 1em 0; }
+  .fr { float: right; margin: 0 0 1em 1em; }
+
+/* -- hide som stuff -- */
+  #menu { display: none; }

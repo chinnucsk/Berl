@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<head>
+ <meta charset="utf-8">
+ <title>{% block title %}{% endblock %}{% if blog %}{{blog.name}}{% else %}Who knows Wayne?{% endif %}</title>
+
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+
+ <!--[if lte IE 8]><script src="js/ie.js"></script><![endif]-->
+
+ <link rel="stylesheet" href="/static/css/print.css" type="text/css" media="print">
+ <link rel="stylesheet" href="/static/css/screen.css" type="text/css" media="screen, projection">
+ <meta name="generator" content="{{generator}}">
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="{{rss_uri}}">
+ <link rel="alternate" type="application/atom+xml" title="Atom" href="{{atom_uri}}">{% if js_files %}{% for f in js_files %}
+ <script src="{{f}}"></script>
+{% endfor %}{% endif %}
+
+ <meta name="description" content="{% if post and post.excerpt %}{{post.excerpt}}{% else %}{% if blog %}{{blog.description}}{% else %}Who knows wayne?{% endif %}{% endif %}">
+ <meta name="keywords" content="{% if blog %}{{blog.keywords}}{% endif %}{% if tags %}, {% for t in tags %}{{t}}, {% endfor %}{% endif %}">
+
+ <script src="/static/js/sh.js"></script>
+ <link rel="stylesheet" href="/static/css/sh.css" type="text/css">
+</head>
+
+<body>
+  <nav id="sidebar"><a href="#menu">Jump to menu</a></nav>
+
+  <header>
+    <h1><a title="Back to start page" href="{% if blog %}{{blog.url}}{% else %}http://wer.kennt-wayne.de/{% endif %}">{% if blog %}{{blog.name}}{% else %}Who knows Wayne?{% endif %}</a></h1>
+  </header>
+
+
+  <div id="main">
+    {% block content %}<em>No content available, yet</em>{% endblock %}
+  </div>
+
+  <nav id="menu">
+    <h2>Menu</h2>
+
+    <div id="container">
+      <footer>
+        <h3><img src="/static/img/about.png" alt="About This Site"></h3>
+        <p>This site is devoted to subjects <a href="http://kennst-du-wayne.de/">only Wayne cares</a> about.</p>
+        {% if blog %}<p>This site is disfigured by <a href="mailto:{{blog.author.email}}">{{blog.author.name}}</a> with content. The software used is CKs <a href="http://github.com/ckruse/Berl">Berl</a>.</p>{% endif %}
+        <p><a href="{{rss_uri}}">RSS</a> / <a href="{{atom_uri}}">Atom</a>{% if user %} – <a href="/logout">Logout</a>, <a href="/admin">admin interface</a>{% endif %}</p>
+      </footer>
+
+      <section id="last">
+        <h3><img src="/static/img/last.png" alt="Last Posts"></h3>
+
+        <!-- ul>
+           4.times do |i| %} if @posts and @posts[i] then
+          <li><a href=" @posts[i].perm_uri %}"> @posts[i].subject %}</a> if(@posts[i].comments.length > 0) then %} <a class="comments" title="to the comments" href=" @posts[i].perm_uri %}#comments">( @posts[i].comments.length %})</a> end %}  @posts[i].published.strftime("%d/%m/%Y") %}</li>
+           end end
+        </ul -->
+      </section>
+
+      <section id="archives">
+        <h3><img src="/static/img/archive.png" alt="Archiv"></h3>
+
+        <h4><label for="month">Month</label></h4>
+        <form action="/goto-year-month" method="get">
+          <p>
+            <select id="month" name="month_year">
+            </select>
+            <input class="menu-submit" type="image" src="/static/img/revolver.png" title="los" alt="los" name="go-month">
+          </p>
+        </form>
+
+        {% if all_tags %}<h4><a href="/tags">Tags</a></h4>
+        <form method="get" action="/tags">
+          <p>
+            <select id="tags" name="tag">
+            {% for t in all_tags %}<option value="{{t}}">{{t}}</option>{% endfor %}
+            </select>
+            <input class="menu-submit" type="image" src="/static/img/revolver.png" title="los" alt="Go">
+          </p>
+        </form>{% endif %}
+
+        <h4>Search</h4>
+        <form method="get" action="/search">
+          <p>
+            <input class="menu-search" type="text" name="s" value="">&nbsp;
+            <input class="menu-submit" type="image" src="/static/img/revolver.png" title="Go" alt="suchen">
+          </p>
+        </form>
+      </section>
+    </div>
+
+    <br class="clearfix">
+  </nav>
+
+</body>

@@ -1,0 +1,9 @@
+<article id="comment-{{comment.id}}">
+  <header>
+    <img class="gravatar" src="/static/img/gravatar.jpg" alt="Avatar">
+    <h4>{{comment.author}} wrote</h4>
+    <details>at <a title="permanent link to this comment" href="{{post.perm_uri}}#comment-{{comment.id}}"><time pubdate datetime="{{comment.created|date:"Y-m-dTH:i:SZ"}}">{{comment.created|date:"d/m/Y, P"}}</time></a></details>
+  </header>
+
+  {{comment.content}}
+</article>

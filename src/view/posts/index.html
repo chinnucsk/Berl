@@ -1,0 +1,11 @@
+{% extends "layout/application.html" %}
+
+{% block content %}
+  {% if posts %}
+    {% for post in posts %}
+      {% include "posts/post.html" %}
+    {% endfor %}
+  {% else %}
+    <em>No content available, yet</em>
+  {% endif %}
+{% endblock %}
