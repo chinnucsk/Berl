@@ -9,6 +9,8 @@
               description CHARACTER VARYING(250) NOT NULL,
               keywords CHARACTER VARYING(250),
               url CHARACTER VARYING(250) NOT NULL,
+              image_url CHARACTER VARYING(250) NOT NULL,
+              lang CHARACTER VARYING(5) NOT NULL,
               host CHARACTER VARYING(250) NOT NULL,
               author_id INTEGER NOT NULL REFERENCES authors(id) ON DELETE CASCADE ON UPDATE CASCADE
             )"

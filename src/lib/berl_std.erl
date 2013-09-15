@@ -4,8 +4,19 @@
 -export([std_vars/1, blog/1, hostname/1, month_to_name/1]).
 
 std_vars(Req) ->
-    Blog = blog(Req),
-    [{blog, Blog}].
+    case blog(Req) of
+        undefined ->
+            [
+             {rss_uri, "http://wer.kennt-wayne.de/feed.rss"},
+             {atom_uri, "http://wer.kennt-wayne.de/feed.atom"}
+            ];
+        Blog ->
+            [
+             {blog, Blog},
+             {rss_uri, Blog:url() ++ "feed.rss"},
+             {atom_uri, Blog:url() ++ "feed.atom"}
+            ]
+    end.
 
 blog(Req) ->
     Hostname = hostname(Req),

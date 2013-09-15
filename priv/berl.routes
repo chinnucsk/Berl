@@ -1,6 +1,8 @@
 % Routes file.
 
 {"/", [{controller, "posts"}, {action, "index"}]}.
+{"/feed.rss", [{controller, "posts"}, {action, "rss"}]}.
+{"/feed.atom", [{controller, "posts"}, {action, "atom"}]}.
 {"/\\d+/\\w+/(.*)", [{controller, "posts"}, {action, "show"}, {slug, '$1'}]}.
 
 {404, [{controller, "berl"}, {action, "not_found"}]}.

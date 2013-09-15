@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{blog.name|default:"Who knows Wayne?"}}</title>
+  <id>{{blog.url|default:"http://wer.kennt-wayne.de/"}}</id>
+  <link rel="self" href="{{atom_uri}}" />
+  <updated>{{last_post.updated|atom_date}}</updated>
+
+{% for post in posts %}
+  <entry>
+    <published>{{post.published|atom_date}}</published>
+    <title>{{post.subject}}</title>
+    <link href="{{post.perm_uri}}"/>
+    <id>{{post.guid}}</id>
+    <author>
+      <name>{{post.author.name}}</name>{% if post.author.email %}
+      <email>{{post.author.email}}</email>{% endif %}{% if post.author.url %}
+      <uri>{{post.author.url}}</uri>{% endif %}
+    </author>
+    <updated>{{post.updated|atom_date}}</updated>{% if post.excerpt %}
+    <summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">{{post.excerpt}}</div></summary>{% endif %}
+    <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">{{post.content}}</div></content>
+  </entry>
+{% endfor %}
+</feed>

@@ -7,6 +7,7 @@
            "CREATE TABLE posts (
               id SERIAL PRIMARY KEY,
               slug CHARACTER VARYING(250) NOT NULL,
+              guid CHARACTER VARYING(250) NOT NULL UNIQUE,
               visible BOOLEAN NOT NULL,
               author_id INTEGER NOT NULL REFERENCES authors(id) ON DELETE CASCADE ON UPDATE CASCADE,
               blog_id INTEGER NOT NULL REFERENCES blogs(id) ON DELETE CASCADE ON UPDATE CASCADE,

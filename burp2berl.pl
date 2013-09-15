@@ -10,6 +10,7 @@ my $new_db = DBI->connect("dbi:Pg:dbname=berl", "ckruse", "");
 
 my $user_map = {};
 my $blog_map = {};
+my $blog_uri_map  = {};
 my $blog_user_map = {};
 
 my $sth = $old_db->prepare("SELECT * FROM authors");
@@ -32,25 +33,36 @@ while(my $row = $sth->fetchrow_hashref) {
 my $sth = $old_db->prepare("SELECT * FROM blogs");
 $sth->execute();
 
-my $insert = $new_db->prepare("INSERT INTO blogs (name, description, keywords, url, host, author_id) VALUES (?, ?, ?, ?, ?, ?)");
+my $insert = $new_db->prepare("INSERT INTO blogs (name, description, keywords, url, image_url, lang, host, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 while(my $row = $sth->fetchrow_hashref) {
   my $host = $row->{url};
   $host =~ s/http:\/\/|\/$//g;
 
-  $insert->execute($row->{title}, $row->{description}, '', $row->{url}, $host, $user_map->{$blog_user_map->{$row->{id}}});
+  $insert->execute($row->{title}, $row->{description}, '', $row->{url}, "", "de", $host, $user_map->{$blog_user_map->{$row->{id}}});
 
   $blog_map->{$row->{id}} = $new_db->selectrow_arrayref("SELECT MAX(id) FROM blogs")->[0];
+  $blog_uri_map->{$row->{id}} = $row->{url};
 }
 
 
 my $sth = $old_db->prepare("SELECT * FROM posts");
 $sth->execute();
 
-my $insert = $new_db->prepare("INSERT INTO posts (slug, visible, author_id, blog_id, subject, excerpt, content, format, created, updated, published) VALUES (?, ?, ?, ?, ?, ?, ?, 'html', ?, ?, ?)");
+my $insert = $new_db->prepare("INSERT INTO posts (slug, guid, visible, author_id, blog_id, subject, excerpt, content, format, created, updated, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'html', ?, ?, ?)");
 
 while(my $row = $sth->fetchrow_hashref) {
-  $insert->execute($row->{uri_tag}, $row->{visible}, $user_map->{$row->{author_id}}, $blog_map->{$row->{blog_id}}, $row->{subject}, $row->{excerpt}, $row->{content}, $row->{created}, $row->{updated}, $row->{published});
+  my ($year, $mon) = year_mon($row->{created});
+  $insert->execute($row->{uri_tag}, $blog_uri_map->{$row->{blog_id}} . $year . "/" . $mon . "/" . $row->{uri_tag}, $row->{visible}, $user_map->{$row->{author_id}}, $blog_map->{$row->{blog_id}}, $row->{subject}, $row->{excerpt}, $row->{content}, $row->{created}, $row->{updated}, $row->{published});
+}
+
+sub year_mon($) {
+  my $d = shift;
+  my ($year, $mon) = split /-/, $d;
+
+  my $mon = (undef, 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec')[$mon];
+
+  return ($year, $mon);
 }
 
 # eof

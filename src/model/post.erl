@@ -1,6 +1,6 @@
 % -*- coding: utf-8 -*-
 
--module(post, [Id, Slug::string(), Visible, AuthorId, BlogId, Subject::string(), Excerpt::string(), Content::string(), Format::string(), Created, Updated, Published]).
+-module(post, [Id, Slug::string(), Guid::string(), Visible, AuthorId, BlogId, Subject::string(), Excerpt::string(), Content::string(), Format::string(), Created, Updated, Published]).
 -compile(export_all).
 
 -belongs_to(blog).

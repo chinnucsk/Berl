@@ -1,7 +1,6 @@
 <article{% if post.visible == false %} class="invisible"{% endif %}>
   <header>
     <h2><a title="permanent link to this post" href="{{post.perm_uri}}">{{post.subject}}</a></h2>
-    {{post.published}}
     <details open>Published at <time pubdate datetime="{{post.published|date:"Y-m-dTH:i:SZ"}}">{{post.published|date:"d/m/Y, P"}}</time> by <a href="mailto:{{post.author.email}}">{{post.author.name}}</a>{% if post.updated > post.published %}, updated at {{post.updated|date: "d/m/Y, P"}}{% endif %}
     {% if post.tags %}<br />Filed under: <%
       p.tags.each do |t|
@@ -28,7 +27,7 @@
 
     <header>
       <h3>0 Comments</h3>
-      <details open>Kommentar-Feed: <a href="{{post_rss_uri}}">RSS</a> / <a href="{{post_atom_uri}}">Atom</a></details>
+      <details open>Kommentar-Feed: <a href="{{post.perm_uri}}.rss">RSS</a> / <a href="{{post.perm_uri}}.atom">Atom</a></details>
     </header>
 
     {% for comment in comments %}
